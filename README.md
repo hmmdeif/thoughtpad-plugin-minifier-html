@@ -18,8 +18,10 @@ var thoughtpad = man.registerPlugins([minify]);
 thoughtpad.subscribe("html-postcompile-complete", function (data) {
     console.log("Minified html returned here"); 
 });
-thoughtpad.notify("html-postcompile-request", { contents: "your html code here" });
+thoughtpad.notify("html-postcompile-request", { contents: "your html code here", data: {} });
 ```
+
+You can pass in any options from the original [html-minifier](https://github.com/kangax/html-minifier) module and it will minify with those options.
 
 ## Tests
 

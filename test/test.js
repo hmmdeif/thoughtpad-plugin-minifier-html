@@ -1,5 +1,6 @@
 var should = require('should'),
     app = require('./../src/main'),
+    co = require('co'),
     man = require('thoughtpad-plugin-manager'),
     thoughtpad;
 
@@ -11,7 +12,9 @@ describe("html minify plugin", function () {
             true.should.be.true;
         });
 
-        thoughtpad.notify("html-postcompile-request", { contents: "" });
+        co(function *() {
+            yield thoughtpad.notify("html-postcompile-request", { contents: "2" });
+        })();
     });
 
     it("should ignore requests with no content", function () {
@@ -21,17 +24,21 @@ describe("html minify plugin", function () {
             true.should.be.false;
         });
 
-        thoughtpad.notify("html-postcompile-request", { contents: "" });
+        co(function *() {
+            yield thoughtpad.notify("html-postcompile-request", { contents: "" });
+        })();
     });
 
-    it("should minify html from string", function () {
+    it("should minify html from string", function (done) {
         thoughtpad = man.registerPlugins([app]);
 
         thoughtpad.subscribe("html-postcompile-complete", function *(contents) {
             contents.should.equal('<body><p>Hello there</p></body>');
         });
 
-        thoughtpad.notify("html-postcompile-request", { contents: "<body>\n\t<p>Hello there</p> \n</body>", data: { collapseWhitespace: true } });
-        
+        co(function *() {
+            yield thoughtpad.notify("html-postcompile-request", { contents: "<body>\n\t<p>Hello there</p> \n</body>", data: { collapseWhitespace: true } });
+            done();
+        })();
     });
 });

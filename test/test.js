@@ -34,6 +34,11 @@ describe("html minify plugin", function () {
             name = "";
 
         thoughtpad = man.registerPlugins([app]);
+        thoughtpad.config = {
+            eventData: {
+                'html-postcompile': { collapseWhitespace: true }
+            }
+        };
 
         thoughtpad.subscribe("html-postcompile-complete", function *(res) {
             contents = res.contents;

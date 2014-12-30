@@ -30,14 +30,20 @@ describe("html minify plugin", function () {
     });
 
     it("should minify html from string", function (done) {
+        var contents = "",
+            name = "";
+
         thoughtpad = man.registerPlugins([app]);
 
-        thoughtpad.subscribe("html-postcompile-complete", function *(contents) {
-            contents.should.equal('<body><p>Hello there</p></body>');
+        thoughtpad.subscribe("html-postcompile-complete", function *(res) {
+            contents = res.contents;
+            name = res.name;
         });
 
         co(function *() {
-            yield thoughtpad.notify("html-postcompile-request", { contents: "<body>\n\t<p>Hello there</p> \n</body>", data: { collapseWhitespace: true } });
+            yield thoughtpad.notify("html-postcompile-request", { contents: "<body>\n\t<p>Hello there</p> \n</body>", name: 'hello' });
+            contents.should.equal('<body><p>Hello there</p></body>');
+            name.should.equal('hello');
             done();
         })();
     });

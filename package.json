@@ -8,13 +8,13 @@
   },
   "repository" : { 
     "type" : "git", 
-    "url" : "https://github.com/hmmdeif/thoughtpad-plugin-minifier-html.git"
+    "url" : "https://github.com/thoughtpad/thoughtpad-plugin-minifier-html.git"
   },
   "dependencies": {
     "html-minifier": "~0.6.6"
   },
   "devDependencies": {
-    "thoughtpad-plugin-manager": "git://github.com/hmmdeif/thoughtpad-plugin-manager.git#master",
+    "thoughtpad-plugin-manager": "git://github.com/thoughtpad/thoughtpad-plugin-manager.git#master",
     "should": "~3.3.2",
     "mocha": "~1.21.4",
     "coveralls": "~2.11.2",

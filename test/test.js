@@ -5,7 +5,7 @@ var should = require('should'),
     thoughtpad;
 
 describe("html minify plugin", function () {
-    it("should register correctly to events", function () {
+    it("should register correctly to events", function (done) {
         thoughtpad = man.registerPlugins([app]);
 
         thoughtpad.subscribe("html-postcompile-complete", function *() {
@@ -14,10 +14,11 @@ describe("html minify plugin", function () {
 
         co(function *() {
             yield thoughtpad.notify("html-postcompile-request", { contents: "2" });
-        })();
+            done();
+        }).catch(done);
     });
 
-    it("should ignore requests with no content", function () {
+    it("should ignore requests with no content", function (done) {
         thoughtpad = man.registerPlugins([app]);
 
         thoughtpad.subscribe("html-postcompile-complete", function *() {
@@ -26,7 +27,8 @@ describe("html minify plugin", function () {
 
         co(function *() {
             yield thoughtpad.notify("html-postcompile-request", { contents: "" });
-        })();
+            done();
+        }).catch(done);
     });
 
     it("should minify html from string", function (done) {
@@ -50,6 +52,6 @@ describe("html minify plugin", function () {
             contents.should.equal('<body><p>Hello there</p></body>');
             name.should.equal('hello');
             done();
-        })();
+        }).catch(done);
     });
 });
